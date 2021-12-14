@@ -1,5 +1,6 @@
 package br.com.zup.Amazup.livro.dtos;
 
+import br.com.zup.Amazup.autor.Autor;
 import br.com.zup.Amazup.autor.dtos.AutorDTO;
 import br.com.zup.Amazup.livro.enuns.Genero;
 
@@ -13,7 +14,7 @@ public class CadastroLivroDTO {
     @NotBlank(message = "Nome é obrigatório")
     private String nome;
     @Valid
-    private AutorDTO autor;
+    private Autor autor;
     @Min(value = 1, message = "O valor é obrigatório e deve ser maior ou igual a 1.00")
     private double preco;
     @NotNull(message = "Gênero é obrigatório")
@@ -32,11 +33,11 @@ public class CadastroLivroDTO {
         this.nome = nome;
     }
 
-    public AutorDTO getAutor() {
+    public Autor getAutor() {
         return autor;
     }
 
-    public void setAutor(AutorDTO autor) {
+    public void setAutor(Autor autor) {
         this.autor = autor;
     }
 
