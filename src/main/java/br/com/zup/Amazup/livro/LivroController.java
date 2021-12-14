@@ -2,12 +2,14 @@ package br.com.zup.Amazup.livro;
 
 import br.com.zup.Amazup.livro.componentes.ConstrutorURI;
 import br.com.zup.Amazup.livro.dtos.CadastroLivroDTO;
+import br.com.zup.Amazup.livro.dtos.ExibirLivroDTO;
 import br.com.zup.Amazup.livro.dtos.RetornoCadastroDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.GeneratedValue;
 import javax.validation.Valid;
 import java.net.URI;
 
@@ -32,6 +34,15 @@ public class LivroController {
         retornoCadastroDTO.setVitrine(construtorURI.criarUri("/livros",livro.getId()));
 
         return retornoCadastroDTO;
+    }
+
+    @GetMapping("/{id}")
+    public ExibirLivroDTO exibirLivro(@PathVariable int id){
+        Livro livro = livroService.buscarLivroPorId(id);
+        ExibirLivroDTO livroRetorno = modelMapper.map(livro,ExibirLivroDTO.class);
+        livroRetorno.getAutor().setUri(construtorURI.criarUri("/livros", livro.getAutor().getId()));
+
+        return livroRetorno;
     }
 
 }
