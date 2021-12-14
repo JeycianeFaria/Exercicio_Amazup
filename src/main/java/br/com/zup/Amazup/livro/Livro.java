@@ -14,7 +14,7 @@ public class Livro {
     private  int id;
     @Column(nullable = false)
     private String nome;
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne
     private Autor autor;
     @Column(nullable = false)
     private double preco;
