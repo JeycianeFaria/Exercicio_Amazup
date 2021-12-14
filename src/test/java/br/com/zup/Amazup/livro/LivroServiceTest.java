@@ -26,6 +26,7 @@ public class LivroServiceTest {
     private Livro livro;
     private Autor autor;
 
+
     @BeforeEach
     public void  setup(){
         autor = new Autor();
@@ -38,6 +39,16 @@ public class LivroServiceTest {
         livro.setAutor(autor);
         livro.setPreco(39.90);
         livro.setGenero(FICCAO_CIENTIFICA);
+    }
+
+    @Test
+    public void testarSalvarLivroCaminhoPositivo(){
+        when(livroRepository.save(any(Livro.class))).thenReturn(livro);
+
+        Livro livroRetorno = livroService.salvarLivro(livro);
+
+        verify(livroRepository, Mockito.times(1)).save(Mockito.any(Livro.class));
+
     }
 
 }
