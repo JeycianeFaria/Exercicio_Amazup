@@ -1,6 +1,7 @@
 package br.com.zup.Amazup.livro;
 
 import br.com.zup.Amazup.autor.Autor;
+import br.com.zup.Amazup.livro.componentes.ConstrutorURI;
 import br.com.zup.Amazup.livro.componentes.ConversorModelMapper;
 import br.com.zup.Amazup.livro.dtos.CadastroLivroDTO;
 import br.com.zup.Amazup.livro.dtos.RetornoCadastroDTO;
@@ -19,7 +20,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static br.com.zup.Amazup.livro.enuns.Genero.FICCAO_CIENTIFICA;
 
-@WebMvcTest({LivroController.class, ConversorModelMapper.class})
+@WebMvcTest({LivroController.class, ConversorModelMapper.class, ConstrutorURI.class})
 public class LivroControllerTest {
 
     @MockBean
@@ -83,6 +84,15 @@ public class LivroControllerTest {
         ResultActions respostaRequisicao = mockMvc.perform(MockMvcRequestBuilders.post("/livros")
                         .contentType(MediaType.APPLICATION_JSON).content(json))
                 .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity());
+
+    }
+
+    @Test
+    public void testarRotaParaExibirLivro()throws Exception{
+        Mockito.when(livroService.buscarLivroPorId(Mockito.anyInt())).thenReturn(livro);
+
+        ResultActions respostaRequisicao =mockMvc.perform(MockMvcRequestBuilders.get("/livros/"+livro.getId())
+                .contentType(MediaType.APPLICATION_JSON)).andExpect(MockMvcResultMatchers.status().isOk());
 
     }
 
