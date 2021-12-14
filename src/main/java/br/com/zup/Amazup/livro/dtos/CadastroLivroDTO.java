@@ -1,7 +1,6 @@
 package br.com.zup.Amazup.livro.dtos;
 
 import br.com.zup.Amazup.autor.Autor;
-import br.com.zup.Amazup.autor.dtos.AutorDTO;
 import br.com.zup.Amazup.livro.enuns.Genero;
 
 import javax.validation.Valid;
