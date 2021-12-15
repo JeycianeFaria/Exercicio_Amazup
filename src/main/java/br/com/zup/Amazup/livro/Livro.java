@@ -16,7 +16,7 @@ public class Livro {
     private String nome;
     @ManyToOne
     private Autor autor;
-    @Column(nullable = false)
+    @Column(nullable = false, precision = 10, scale = 2)
     private double preco;
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)

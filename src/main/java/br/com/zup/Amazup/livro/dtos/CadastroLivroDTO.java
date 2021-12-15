@@ -12,9 +12,9 @@ public class CadastroLivroDTO {
 
     @NotBlank(message = "Nome é obrigatório")
     private String nome;
-    @Valid
+    @NotNull(message = "Autor é obrigatório")
     private Autor autor;
-    @Min(value = 1, message = "O valor é obrigatório e deve ser maior ou igual a 1.00")
+    @Min(value = 0, message = "O valor é obrigatório e deve ser maior ou igual a 1.00")
     private double preco;
     @NotNull(message = "Gênero é obrigatório")
     private Genero genero;
