@@ -102,6 +102,18 @@ public class LivroControllerTest {
     }
 
     @Test
+    public void testarCadastrarLivroValidacaoAutorNotNull() throws Exception {
+        Mockito.when(livroService.salvarLivro(Mockito.any(Livro.class))).thenReturn(livro);
+        livroCadastro.setAutor(null);
+        String json = objectMapper.writeValueAsString(livroCadastro);
+
+        ResultActions respostaRequisicao = mockMvc.perform(MockMvcRequestBuilders.post("/livros")
+                        .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity());
+
+    }
+
+    @Test
     public void testarCadastrarLivroValidacaoGenero()throws Exception{
         Mockito.when(livroService.salvarLivro(Mockito.any(Livro.class))).thenReturn(livro);
         String json = objectMapper.writeValueAsString(livroCadastro);
