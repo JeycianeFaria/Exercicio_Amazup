@@ -138,6 +138,19 @@ public class LivroControllerTest {
     }
 
     @Test
+    public void testarCadastrarLivroValidacaoPreco() throws Exception{
+        Mockito.when(livroService.salvarLivro(Mockito.any(Livro.class))).thenReturn(livro);
+        livroCadastro.setPreco(-1);
+
+        String json = objectMapper.writeValueAsString(livroCadastro);
+
+        ResultActions respostaRequisicao = mockMvc.perform(MockMvcRequestBuilders.post("/livros")
+                        .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity());
+
+    }
+
+    @Test
     public void testarRotaParaExibirLivro()throws Exception{
         Mockito.when(livroService.buscarLivroPorId(Mockito.anyInt())).thenReturn(livro);
 
