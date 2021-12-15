@@ -1,6 +1,8 @@
 package br.com.zup.Amazup.config;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -23,6 +25,15 @@ public class ControllerAdvisor {
         }
 
         return erros;
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity manipularErroGenero(HttpMessageNotReadableException exception) {
+        if(exception.getLocalizedMessage().contains("br.com.zup.Amazup.livro.enuns.Genero")){
+            return ResponseEntity.status(422).build();
+        }
+
+        return ResponseEntity.status(400).build();
     }
 
 }
