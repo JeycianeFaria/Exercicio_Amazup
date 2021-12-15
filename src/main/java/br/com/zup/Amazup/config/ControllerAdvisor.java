@@ -1,5 +1,6 @@
 package br.com.zup.Amazup.config;
 
+import br.com.zup.Amazup.livro.exceptions.LivroNaoEncontradoException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -34,6 +35,12 @@ public class ControllerAdvisor {
         }
 
         return ResponseEntity.status(400).build();
+    }
+
+    @ExceptionHandler(LivroNaoEncontradoException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public MensagemErro manipularLivroNaoEncontrado(LivroNaoEncontradoException exception){
+        return  new MensagemErro(exception.getMessage());
     }
 
 }
