@@ -9,6 +9,7 @@ import br.com.zup.Amazup.livro.exceptions.LivroNaoEncontradoException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -96,6 +97,18 @@ public class LivroControllerTest {
 
         ResultActions respostaRequisicao = mockMvc.perform(MockMvcRequestBuilders.post("/livros")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity());
+
+    }
+
+    @Test
+    public void testarCadastrarLivroValidacaoGeneroNotNull() throws Exception{
+        Mockito.when(livroService.salvarLivro(Mockito.any(Livro.class))).thenReturn(livro);
+        livroCadastro.setGenero(null);
+        String json = objectMapper.writeValueAsString(livroCadastro);
+
+        ResultActions respostaRequisicao = mockMvc.perform(MockMvcRequestBuilders.post("/livros")
+                        .contentType(MediaType.APPLICATION_JSON).content(json))
                 .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity());
 
     }
