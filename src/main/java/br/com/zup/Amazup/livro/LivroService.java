@@ -1,5 +1,6 @@
 package br.com.zup.Amazup.livro;
 
+import br.com.zup.Amazup.livro.exceptions.LivroNaoEncontradoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,9 +20,10 @@ public class LivroService {
     public Livro buscarLivroPorId(int id) {
         Optional<Livro> livroOptional = livroRepository.findById(id);
         if (livroOptional.isEmpty()){
-            throw new RuntimeException();
+            throw new LivroNaoEncontradoException();
         }
 
         return livroOptional.get();
     }
+
 }
