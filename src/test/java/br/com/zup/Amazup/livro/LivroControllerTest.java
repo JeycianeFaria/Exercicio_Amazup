@@ -5,6 +5,7 @@ import br.com.zup.Amazup.livro.componentes.ConstrutorURI;
 import br.com.zup.Amazup.livro.componentes.ConversorModelMapper;
 import br.com.zup.Amazup.livro.dtos.CadastroLivroDTO;
 import br.com.zup.Amazup.livro.dtos.RetornoCadastroDTO;
+import br.com.zup.Amazup.livro.exceptions.LivroNaoEncontradoException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -105,6 +106,16 @@ public class LivroControllerTest {
 
         ResultActions respostaRequisicao =mockMvc.perform(MockMvcRequestBuilders.get("/livros/"+livro.getId())
                 .contentType(MediaType.APPLICATION_JSON)).andExpect(MockMvcResultMatchers.status().isOk());
+
+    }
+
+     @Test
+    public void testarRotaParaExibirLivroNaoEncontrado() throws Exception{
+        Mockito.doThrow(new LivroNaoEncontradoException()).when(livroService).buscarLivroPorId(Mockito.anyInt());
+
+        ResultActions respostaRequisicao = mockMvc.perform(MockMvcRequestBuilders
+                .get("/livros/"+livro.getId()).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isNotFound());
 
     }
 
