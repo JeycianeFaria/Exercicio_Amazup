@@ -78,9 +78,21 @@ public class LivroControllerTest {
     }
 
     @Test
-    public void testarCadastrarLivroValidacaoNome() throws Exception {
+    public void testarCadastrarLivroValidacaoNomeEmBranco() throws Exception {
         Mockito.when(livroService.salvarLivro(Mockito.any(Livro.class))).thenReturn(livro);
         livroCadastro.setNome("");
+        String json = objectMapper.writeValueAsString(livroCadastro);
+
+        ResultActions respostaRequisicao = mockMvc.perform(MockMvcRequestBuilders.post("/livros")
+                        .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity());
+
+    }
+
+    @Test
+    public void testarCadastrarLivroValidacaoNomeNotNull() throws Exception {
+        Mockito.when(livroService.salvarLivro(Mockito.any(Livro.class))).thenReturn(livro);
+        livroCadastro.setNome(null);
         String json = objectMapper.writeValueAsString(livroCadastro);
 
         ResultActions respostaRequisicao = mockMvc.perform(MockMvcRequestBuilders.post("/livros")
