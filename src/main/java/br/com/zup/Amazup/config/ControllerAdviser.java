@@ -14,13 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestControllerAdvice
-public class ControllerAdvisor {
+public class ControllerAdviser {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-    public List<MensagemErro> manipularErrosValidacao(MethodArgumentNotValidException exception){
-         List<MensagemErro> erros = new ArrayList<>();
-        for (FieldError referencia : exception.getFieldErrors()){
+    public List<MensagemErro> manipularErrosValidacao(MethodArgumentNotValidException exception) {
+        List<MensagemErro> erros = new ArrayList<>();
+        for (FieldError referencia : exception.getFieldErrors()) {
             MensagemErro mensagem = new MensagemErro(referencia.getDefaultMessage());
             erros.add(mensagem);
         }
@@ -30,7 +30,7 @@ public class ControllerAdvisor {
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity manipularErroGenero(HttpMessageNotReadableException exception) {
-        if(exception.getLocalizedMessage().contains("br.com.zup.Amazup.livro.enuns.Genero")){
+        if (exception.getLocalizedMessage().contains("br.com.zup.Amazup.livro.enuns.Genero")) {
             return ResponseEntity.status(422).build();
         }
 
@@ -39,8 +39,8 @@ public class ControllerAdvisor {
 
     @ExceptionHandler(LivroNaoEncontradoException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public MensagemErro manipularLivroNaoEncontrado(LivroNaoEncontradoException exception){
-        return  new MensagemErro(exception.getMessage());
+    public MensagemErro manipularLivroNaoEncontrado(LivroNaoEncontradoException exception) {
+        return new MensagemErro(exception.getMessage());
     }
 
 }

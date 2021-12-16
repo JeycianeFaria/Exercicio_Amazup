@@ -1,15 +1,16 @@
 package br.com.zup.Amazup.livro;
 
 import br.com.zup.Amazup.autor.Autor;
+import br.com.zup.Amazup.livro.exceptions.LivroJaCadastradoException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import static br.com.zup.Amazup.livro.enuns.Genero.FICCAO_CIENTIFICA;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
@@ -28,7 +29,7 @@ public class LivroServiceTest {
 
 
     @BeforeEach
-    public void  setup(){
+    private void  setup(){
         autor = new Autor();
         autor.setId(1);
         autor.setNome("Douglas Adams");
@@ -44,10 +45,25 @@ public class LivroServiceTest {
     @Test
     public void testarSalvarLivroCaminhoPositivo(){
         when(livroRepository.save(any(Livro.class))).thenReturn(livro);
+        when(livroRepository.existsByNomeAndAutorId(anyString(), anyInt())).thenReturn(false);
 
         Livro livroRetorno = livroService.salvarLivro(livro);
 
-        verify(livroRepository, Mockito.times(1)).save(Mockito.any(Livro.class));
+        assertEquals(livro,livroRetorno);
+
+        verify(livroRepository, times(1)).save(any(Livro.class));
+
+    }
+
+    @Test
+    public void testarSalvarLivroRepetido() {
+        when(livroRepository.save(any(Livro.class))).thenReturn(livro);
+        when(livroRepository.existsByNomeAndAutorId(anyString(), anyInt())).thenReturn(true);
+
+        RuntimeException exception = assertThrows(LivroJaCadastradoException.class,
+                () ->{livroService.salvarLivro(livro);});
+
+        verify(livroRepository, times(0)).save(any(Livro.class));
 
     }
 

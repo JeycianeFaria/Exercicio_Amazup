@@ -1,5 +1,6 @@
 package br.com.zup.Amazup.livro;
 
+import br.com.zup.Amazup.livro.exceptions.LivroJaCadastradoException;
 import br.com.zup.Amazup.livro.exceptions.LivroNaoEncontradoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,10 @@ public class LivroService {
 
 
     public Livro salvarLivro(Livro livro){
+        if (livroRepository.existsByNomeAndAutorId(livro.getNome(),livro.getAutor().getId())){
+            throw new LivroJaCadastradoException("Livro já cadastrado");
+        }
+
         return livroRepository.save(livro);
     }
 
