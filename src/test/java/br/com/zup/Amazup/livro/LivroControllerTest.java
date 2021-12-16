@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest({LivroController.class, ConversorModelMapper.class, ConstrutorURI.class})
-public class git LivroControllerTest {
+public class LivroControllerTest {
 
     @MockBean
     private LivroService livroService;
